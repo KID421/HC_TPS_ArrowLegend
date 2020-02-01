@@ -11,4 +11,6 @@ public class PlayerData : ScriptableObject
     public float cd = 2.5f;
     [Header("發射速度"), Range(0, 3000)]
     public int bulletPower = 1000;
+    [Header("攻擊力"), Range(0, 3000)]
+    public float attack = 30;
 }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: "\u98DB\u9F8D"
   m_EditorClassIdentifier: 
   hp: 100
+  hpMax: 100
   attack: 30
   speed: 0
   cd: 2.2

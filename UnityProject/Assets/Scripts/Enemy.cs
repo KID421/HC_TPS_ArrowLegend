@@ -4,12 +4,15 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [Header("敵人資料")]
-    public EnemyData data;              // 敵人資料
+    public EnemyData data;              // 敵人資料 (腳本化物件：共用)
 
     protected NavMeshAgent agent;       // 導覽代理器
     protected Transform player;         // 玩家變形
     protected Animator ani;             // 動畫控制器
     protected float timer;              // 計時器
+    
+    private HpBarControl hpControl;     // 血條控制器
+    private float hp;                   // 個別的血量 (個別擁有)
 
     private void Start()
     {
@@ -17,8 +20,11 @@ public class Enemy : MonoBehaviour
         ani = GetComponent<Animator>();             
         agent = GetComponent<NavMeshAgent>();
         agent.speed = data.speed;
+        hp = data.hpMax;
         player = GameObject.Find("玩家").transform;
         agent.SetDestination(player.position);
+        hpControl = transform.Find("血條系統").GetComponent<HpBarControl>();    // 變形.尋找("子物件")
+        hpControl.UpdateHpBar(data.hpMax, hp);     // 血量控制系統.更新血條(目前血量，最大血量)
     }
 
     private void Update()
@@ -69,13 +75,20 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void Hit()
+    public void Hit(float damage)
     {
-
+        hp -= damage;                                   // 血量 扣除 傷害值
+        hp = Mathf.Clamp(hp, 0, 10000);                 // 血量 夾在 0 - 10000
+        hpControl.UpdateHpBar(data.hpMax, hp);          // 血量控制系統.更新血條(目前血量，最大血量)
+        if (hp == 0) Dead();                            // 如果 血量 為 0 呼叫死亡方法
+        StartCoroutine(hpControl.ShowDamage(damage));   // 血量控制器.顯示傷害值
     }
 
     private void Dead()
     {
-
+        if (ani.GetBool("死亡動畫")) return;
+        ani.SetBool("死亡動畫", true);
+        this.enabled = false;
+        Destroy(gameObject, 0.2f);
     }
 }

@@ -6,6 +6,8 @@ public class EnemyData : ScriptableObject   // 腳本化物件 將資料儲存�
 {
     [Header("血量"), Range(100, 3000)]
     public float hp = 100;
+    [Header("血量最大值"), Range(100, 3000)]
+    public float hpMax;
     [Header("攻擊力"), Range(1, 1000)]
     public float attack = 10;
     [Header("移動速度"), Range(0, 100)]

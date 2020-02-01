@@ -106,9 +106,6 @@ public class Player : MonoBehaviour
             timer = 0;                      // 歸零
             ani.SetTrigger("攻擊觸發");     // 播放攻擊動畫 SetTrigger("參數名稱")
 
-            GameObject bullet = Instantiate(knife, firePoint.position, firePoint.rotation);     // 生成(子彈，座標，角度)
-            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * data.bulletPower);    // 取得子彈剛體並添加推力
-
             // 1. 取得所有敵人
             enemys.Clear();                                                                     // 清除清單 (刪除清單內容)
             enemys = FindObjectsOfType<Enemy>().ToList();                                       // 透過類型尋找複數物件 (傳回陣列)    // ToList 將陣列轉換為清單 List
@@ -122,6 +119,21 @@ public class Player : MonoBehaviour
                 float dis = Vector3.Distance(transform.position, enemys[i].transform.position); // 取得距離
                 enemysDistance.Add(dis);                                                        // 清單.加入(資料)
             }
+
+            // 3. 取得最短距離
+            float min = enemysDistance.Min();           // 取得最短距離
+            int index = enemysDistance.IndexOf(min);  // 取得最短距離的編號
+
+            Vector3 enemyTarget = enemys[index].transform.position;
+            enemyTarget.y = transform.position.y;
+            transform.LookAt(enemyTarget);
+
+            GameObject bullet = Instantiate(knife, firePoint.position, firePoint.rotation);     // 生成(子彈，座標，角度)
+            bullet.GetComponent<Rigidbody>().AddForce(transform.forward * data.bulletPower);    // 取得子彈剛體並添加推力
+                                                                                                // 暫存子彈.添加元件<子彈>();
+            bullet.AddComponent<Bullet>();
+            bullet.GetComponent<Bullet>().damage = data.attack;
+            bullet.GetComponent<Bullet>().player = true;
         }
     }
 
