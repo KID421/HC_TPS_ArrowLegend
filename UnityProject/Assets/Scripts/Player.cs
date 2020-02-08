@@ -57,7 +57,14 @@ public class Player : MonoBehaviour
     {
         if (other.tag == "傳送區域")
         {
-            levelManager.StartCoroutine("LoadLevel");
+            if (levelManager.isBoss)
+            {
+                levelManager.ShowResult();
+            }
+            else
+            {
+                levelManager.StartCoroutine("LoadLevel");
+            }
         }
     }
     #endregion
@@ -130,7 +137,7 @@ public class Player : MonoBehaviour
 
             // 3. 取得最短距離
             float min = enemysDistance.Min();           // 取得最短距離
-            int index = enemysDistance.IndexOf(min);  // 取得最短距離的編號
+            int index = enemysDistance.IndexOf(min);    // 取得最短距離的編號
 
             Vector3 enemyTarget = enemys[index].transform.position;
             enemyTarget.y = transform.position.y;
@@ -174,10 +181,10 @@ public class Player : MonoBehaviour
     /// </summary>
     public void Revival()
     {
+        this.enabled = true;                            // 此腳本.啟動 = 開啟
         data.hp = data.hpMax;                           // 血量恢復為最大值
         hpControl.UpdateHpBar(data.hpMax, data.hp);     // 更新血條
         ani.SetBool("死亡動畫", false);                 // 動畫設為沒有死亡
-        this.enabled = true;                            // 此腳本.啟動 = 開啟
         levelManager.CloseRevival();                    // 關卡管理器.關閉復活畫面
     }
     #endregion

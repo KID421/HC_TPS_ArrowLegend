@@ -6,6 +6,7 @@ TagManager:
   tags:
   - "\u50B3\u9001\u5340\u57DF"
   - Enemy
+  - "\u91D1\u5E63"
   layers:
   - Default
   - TransparentFX
@@ -15,9 +16,9 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
+  - "\u73A9\u5BB6"
+  - "\u6575\u4EBA"
+  - "\u9053\u5177"
   - 
   - 
   - 

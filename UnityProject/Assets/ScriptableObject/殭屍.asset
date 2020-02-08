@@ -22,3 +22,4 @@ MonoBehaviour:
   attackDelay: 0.8
   attackOffset: {x: 0, y: 0, z: 0}
   bulletSpeed: 0
+  coinRange: {x: 20, y: 30}

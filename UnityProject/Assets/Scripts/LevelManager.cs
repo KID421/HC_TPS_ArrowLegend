@@ -11,21 +11,52 @@ public class LevelManager : MonoBehaviour
     public bool autoOpenDoor;
     [Header("隨機技能介面")]
     public GameObject randomSkill;
+    [Header("是否為魔王關")]
+    public bool isBoss;
 
     private Animator door;              // 門
     private Image cross;                // 轉場畫面
     private CanvasGroup panelRevival;   // 復活畫面
     private Text textCountRevival;      // 復活倒數秒數
+    private GameObject panelResult;     // 結算畫面
+    private AdsManager adManager;
 
     private void Start()
     {
         door = GameObject.Find("門").GetComponent<Animator>();
         cross = GameObject.Find("轉場畫面").GetComponent<Image>();
+
+        adManager = FindObjectOfType<AdsManager>();
         panelRevival = GameObject.Find("復活畫面").GetComponent<CanvasGroup>();
         textCountRevival = panelRevival.transform.Find("倒數秒數").GetComponent<Text>();
+        panelRevival.transform.Find("看廣告復活").GetComponent<Button>().onClick.AddListener(adManager.ShowAD);
+        
+        panelResult = GameObject.Find("結算畫面");
+        panelResult.GetComponent<Button>().onClick.AddListener(BackToMenu);                 // 按鈕.點擊.增加監聽者(方法名稱)
 
         if (autoOpenDoor) Invoke("OpenDoor", 6);    // 延遲調用("方法名稱"，延遲時間)
         if (showRandomSkill) ShowRandomSkill();
+    }
+
+    /// <summary>
+    /// 返回選單場景
+    /// </summary>
+    private void BackToMenu()
+    {
+        SceneManager.LoadScene("選單畫面");
+    }
+
+    /// <summary>
+    /// 顯示結算畫面
+    /// </summary>
+    public void ShowResult()
+    {
+        panelResult.GetComponent<CanvasGroup>().alpha = 1;                  // 透明 = 1
+        panelResult.GetComponent<CanvasGroup>().interactable = true;        // 互動 = 可
+        panelResult.GetComponent<CanvasGroup>().blocksRaycasts = true;      // 阻擋 = 是
+        panelResult.GetComponent<Animator>().SetTrigger("結算畫面觸發");     // 啟動動畫
+        int currentLevel = SceneManager.GetActiveScene().buildIndex;        // 取得目前關卡索引值
+        panelResult.transform.Find("關卡名稱").GetComponent<Text>().text = "LV：" + currentLevel;
     }
 
     /// <summary>
@@ -104,6 +135,13 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     public void PassLevel()
     {
-        OpenDoor();                             // 開門
+        OpenDoor();                                 // 開門
+
+        Item[] items = FindObjectsOfType<Item>();   // 所有道具
+
+        for (int i = 0; i < items.Length; i++)
+        {
+            items[i].pass = true;
+        }
     }
 }

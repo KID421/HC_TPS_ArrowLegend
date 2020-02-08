@@ -5,6 +5,8 @@ public class Enemy : MonoBehaviour
 {
     [Header("敵人資料")]
     public EnemyData data;              // 敵人資料 (腳本化物件：共用)
+    [Header("金幣")]
+    public GameObject coin;
 
     protected NavMeshAgent agent;       // 導覽代理器
     protected Transform player;         // 玩家變形
@@ -90,5 +92,16 @@ public class Enemy : MonoBehaviour
         ani.SetBool("死亡動畫", true);
         this.enabled = false;
         Destroy(gameObject, 0.2f);
+        CreateCoin();
+    }
+
+    private void CreateCoin()
+    {
+        // (int) 強制轉型：將浮點數轉為整數 - 去小數點
+        int r = (int)Random.Range(data.coinRange.x, data.coinRange.y);
+        for (int i = 0; i < r; i++)
+        {
+            Instantiate(coin, transform.position + transform.up * 1, Quaternion.identity);
+        }
     }
 }

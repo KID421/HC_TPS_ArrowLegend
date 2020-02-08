@@ -756,7 +756,7 @@ GameObject:
   - component: {fileID: 2265315803354750374}
   - component: {fileID: 2265315803354750393}
   - component: {fileID: 2265315803354750372}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: "\u6BAD\u5C4D"
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -842,6 +842,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data: {fileID: 11400000, guid: 494b8344957df7f478cee12c15b971a8, type: 2}
+  coin: {fileID: 8586911326321868398, guid: 0aafa1c5ed82c1d479327cdb3f5c2b48, type: 3}
 --- !u!195 &2265315803354750372
 NavMeshAgent:
   m_ObjectHideFlags: 0

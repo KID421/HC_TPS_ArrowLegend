@@ -24,4 +24,6 @@ public class EnemyData : ScriptableObject   // 腳本化物件 將資料儲存�
     public Vector3 attackOffset;
     [Header("遠攻子彈飛行速度"), Range(1, 2000)]
     public float bulletSpeed;
+    [Header("金幣最小與最大值")]
+    public Vector2 coinRange;
 }
