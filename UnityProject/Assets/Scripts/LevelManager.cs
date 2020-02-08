@@ -49,7 +49,8 @@ public class LevelManager : MonoBehaviour
     /// </summary>
     private IEnumerator LoadLevel()
     {
-        AsyncOperation ao = SceneManager.LoadSceneAsync("關卡2");       // 載入場景資訊 = 載入場景("場景名稱")
+        int sceneIndex = SceneManager.GetActiveScene().buildIndex;      // 區域變數 場景索引值 = 場景管理器.取得目前場景().索引值
+        AsyncOperation ao = SceneManager.LoadSceneAsync(++sceneIndex);  // 載入場景資訊 = 載入場景(++場景索引值)
         ao.allowSceneActivation = false;                                // 載入場景資訊.是否允許切換 = 否
 
         while (!ao.isDone)                                              // 當(載入場景資訊.是否完成 為 否)
@@ -80,6 +81,11 @@ public class LevelManager : MonoBehaviour
         panelRevival.alpha = 0;                             // 隱藏復活畫面
         panelRevival.interactable = false;                  // 不可互動
         panelRevival.blocksRaycasts = false;                // 不阻擋射線
+
+        if (!AdsManager.lookAd)                             // 如果 沒有看廣告
+        {
+            SceneManager.LoadScene("選單畫面");             // 倒數完回到選單畫面
+        }
     }
 
     /// <summary>
@@ -91,5 +97,13 @@ public class LevelManager : MonoBehaviour
         panelRevival.alpha = 0;                             // 隱藏復活畫面
         panelRevival.interactable = false;                  // 不可互動
         panelRevival.blocksRaycasts = false;                // 不阻擋射線
+    }
+
+    /// <summary>
+    /// 過關：場景上沒有任何怪物時前往下一關
+    /// </summary>
+    public void PassLevel()
+    {
+        OpenDoor();                             // 開門
     }
 }
