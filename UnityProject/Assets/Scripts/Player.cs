@@ -36,7 +36,8 @@ public class Player : MonoBehaviour
         joy = GameObject.Find("虛擬搖桿").GetComponent<Joystick>();
         levelManager = FindObjectOfType<LevelManager>();                        // 透過類型尋找物件
         hpControl = transform.Find("血條系統").GetComponent<HpBarControl>();    // 變形.尋找("子物件")
-        firePoint = transform.Find("發射位置");                                 
+        firePoint = transform.Find("發射位置");
+        hpControl.UpdateHpBar(data.hpMax, data.hp);                             // 更新血條
     }
 
     // 固定更新：固定一秒 50 次 - 物理行為

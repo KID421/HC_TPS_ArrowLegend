@@ -5,7 +5,7 @@ using UnityEngine.Advertisements;   // 引用 廣告 API
 public class AdsManager : MonoBehaviour, IUnityAdsListener
 {
     private string googleID = "3436899";            // Google 專案 ID
-    private bool testMode = true;                   // 測試模式：允許在 Unity 內側試
+    private bool testMode = false;                  // 測試模式：允許在 Unity 內側試
     private string placemnetRevival = "revival";    // 廣告類型：復活
     private Player player;                          // 玩家腳本
 
@@ -59,8 +59,7 @@ public class AdsManager : MonoBehaviour, IUnityAdsListener
                     break;
                 case ShowResult.Finished:       // 狀況 3 失敗：
                     print("廣告成功");
-                    lookAd = false;             // 看廣告 = 否
-                    player.Revival();           // 玩家.復活
+                    GameObject.Find("玩家").GetComponent<Player>().Revival(); // 復活方法
                     break;
             }
         }
